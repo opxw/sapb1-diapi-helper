@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+  <PropertyGroup>
+	<TargetFrameworks>net461;net6.0</TargetFrameworks>
+	<Title>SAP Business One (SAPB1) DIAPI helper</Title>
+	<Authors>Noviyanto Wibowo</Authors>
+	<Company>$(Authors) - opx</Company>
+	<Copyright>© 2024 Noviyanto Wibowo</Copyright>
+	<PackageProjectUrl>https://github.com/opxw/sap-b1-diapi-helper</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/opxw/sap-b1-diapi-helper</RepositoryUrl>
+	<PackageTags>SAP;B1;DIAPI</PackageTags>
+	<Description>SAP BusinessOne (SAP B1) DIAPI helper</Description>
+	<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	<Version>1.0.2</Version>
+	<PackageIcon>sapb1.png</PackageIcon>
+	<AssemblyVersion>1.0.1</AssemblyVersion>
+	<FileVersion>1.0.1</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="SAPbobsCOM">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>10</VersionMajor>
+      <Guid>fc8030be-f5d2-4b8e-8f92-44228fe30100</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\opx\Downloads\sapb1.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="FastMember" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>
