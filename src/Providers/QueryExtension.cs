@@ -8,7 +8,7 @@ namespace SAPB1.DIAPI.Helper
 {
     public static class QueryExtension
     {
-        private static Dictionary<string, object> ToList(this Fields fields)
+        public static Dictionary<string, object> ToList(this Fields fields)
         {
             var result = new Dictionary<string, object>();
 
@@ -46,6 +46,30 @@ namespace SAPB1.DIAPI.Helper
 
                     accessor[result, member.Name] = value;
                 }
+            }
+
+            return result;
+        }
+
+        public static List<T> ToList<T>(this Recordset recordset, 
+            bool manualColumnMapping = false)
+        {
+            var result = new List<T>();
+
+            if (recordset.RecordCount == 0)
+                return result;
+
+            var recIndex = 0;
+            
+            recordset.MoveFirst();
+            while (!recordset.EoF)
+            {
+                var value = recordset.Fields.MapEntityValue<T>(manualColumnMapping);
+
+                result.Add(value);
+
+                recIndex++;
+                recordset.MoveNext();
             }
 
             return result;
