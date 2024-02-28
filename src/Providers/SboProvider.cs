@@ -135,30 +135,11 @@ namespace SAPB1.DIAPI.Helper
 
         public List<T> SqlQuery<T>(string sql, bool manualColumnMapping = false)
         {
-            var result = new List<T>();
             var recordset = GetBusinessObject<Recordset>(BoObjectTypes.BoRecordset);
 
             recordset.DoQuery(sql);
 
-            if (recordset.RecordCount > 0)
-            {
-                var recIndex = 0;
-
-                recordset.MoveFirst();
-                while (!recordset.EoF)
-                {
-                    var value = recordset.Fields.MapEntityValue<T>(manualColumnMapping);
-
-                    result.Add(value);
-
-                    recIndex++;
-                    recordset.MoveNext();
-                }
-            }
-
-            Marshal.ReleaseComObject(recordset);
-
-            return result;
+            return recordset.ToList<T>();
         }
 
         public void StartTransaction()
@@ -166,6 +147,27 @@ namespace SAPB1.DIAPI.Helper
             CheckForValidCompany();
 
             Company.StartTransaction();
+        }
+
+        public string GetNewObjectCode()
+        {
+            CheckForValidCompany();
+
+            var result = string.Empty;
+            Company.GetNewObjectCode(out result);
+
+            return result;
+        }
+
+        public int GetNewObjectKey()
+        {
+            CheckForValidCompany();
+
+            var result = Company.GetNewObjectKey();
+
+            return string.IsNullOrWhiteSpace(result)
+                ? 0
+                : Convert.ToInt32(result);
         }
 
         protected override void Dispose(bool disposing)
@@ -178,5 +180,6 @@ namespace SAPB1.DIAPI.Helper
 
             base.Dispose(disposing);
         }
+
     }
 }
