@@ -1,7 +1,5 @@
 ﻿using SAPbobsCOM;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace SAPB1.DIAPI.Helper
 {
@@ -74,24 +72,12 @@ namespace SAPB1.DIAPI.Helper
         public List<T> GetValues<T>() where T : GeneralDataRowField
         {
             var result = new List<T>();
-            var table = _tableName;
             var items = _dataCollections;
 
             for (var i = 0; i < items.Count; i++)
                 result.Add(items.Item(i).MapValue<T>());
 
             return result;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_dataCollections != null)
-                    Marshal.FinalReleaseComObject(_dataCollections);
-            }
-                
-            base.Dispose(disposing);
         }
     }
 }
