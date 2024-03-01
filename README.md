@@ -224,25 +224,25 @@ ublic class ItemSale : GeneralDataField
 
 public class ItemSaleDiscount : GeneralDataRowField
 {
-	[SboField("U_FromDate")]
-	public DateTime? StartDate { get; set; }
+    [SboField("U_FromDate")]
+    public DateTime? StartDate { get; set; }
 
-	[SboField("U_Days")]
-	public int? AvailableDays { get; set; }
+    [SboField("U_Days")]
+    public int? AvailableDays { get; set; }
 
-	[SboField("U_Disc")]
-	public double? Discount { get; set; }
+    [SboField("U_Disc")]
+    public double? Discount { get; set; }
 
-	public ItemSaleDiscount(DateTime? startDate, 
-		int? availableDays, 
-		double? discount,
-		int? lineId = null)
-	{
-		StartDate = startDate;
-		AvailableDays = availableDays;
-		Discount = discount;
-		LineId = lineId;
-	}
+    public ItemSaleDiscount(DateTime? startDate, 
+        int? availableDays, 
+        double? discount,
+        int? lineId = null)
+    {
+        StartDate = startDate;
+        AvailableDays = availableDays;
+        Discount = discount;
+        LineId = lineId;
+    }
 }
 ```
 
@@ -256,7 +256,7 @@ udo.Values = new ItemSale()
     ItemCode = "123",
     Notes = "test"
  };
- 
+
 var discTable = udo.ChildTables.Item("ITM_SALE_DISC");
 
 // add multiple values
@@ -269,7 +269,7 @@ discTable.AddList(new List<ItemSaleDiscount>()
 
 // add single value
 discTable.Add(new ItemSaleDiscount(DateTime.Now, 2, 35));
- 
+
 udo.Insert();
 ```
 
@@ -291,6 +291,8 @@ discTable.UpdateList(new List<ItemSaleDiscount>()
 
 // update value in line 1
 discTable.Update(new ItemSaleDiscount(null, null, 25, 1));
+
+udo.Update();
 ```
 
 #### Read
@@ -300,4 +302,26 @@ udo.GetByParams<ItemSale>(new ItemSale()
 {
     Code = "MyCode"
 }, SboRecordsetFillParam.FillIntoValues);
+```
+
+### SQL Query
+
+Examples :
+
+```C#
+public class BusinessPartner
+{
+	[SboField("CardCode")]
+	public string Code { get; set; }
+
+	[SboField("CardName")]
+	public string Name { get; set; }
+}
+```
+
+```C#
+var sql = "SELECT CardCode, CardName from OCRD";
+var result = provider.SqlQuery<BusinessPartner>(sql, true);
+
+// it will return List<BusinessPartner>
 ```
