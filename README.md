@@ -308,20 +308,33 @@ udo.GetByParams<ItemSale>(new ItemSale()
 
 Examples :
 
+With manual field mapping (using attribute) :
+
 ```C#
 public class BusinessPartner
 {
-	[SboField("CardCode")]
-	public string Code { get; set; }
+    [SboField("CardCode")]
+    public string Code { get; set; }
 
-	[SboField("CardName")]
-	public string Name { get; set; }
+    [SboField("CardName")]
+    public string Name { get; set; }
 }
-```
 
-```C#
 var sql = "SELECT CardCode, CardName from OCRD";
 var result = provider.SqlQuery<BusinessPartner>(sql, true);
 
 // it will return List<BusinessPartner>
+```
+
+or, using automatic field mapping:
+
+```C#
+public class BusinessPartner
+{
+    public string Code { get; set; }
+    public string Name { get; set; }
+}
+
+var sql = "SELECT CardCode AS Code, CardName from OCRD AS Name";
+var result = provider.SqlQuery<BusinessPartner>(sql);
 ```
