@@ -209,7 +209,7 @@ Let's try it on available *User Table* `Item Sale` & has been registered as UDO 
 The first step, define those fields into POCO class:
 
 ```C#
-ublic class ItemSale : GeneralDataField
+public class ItemSale : GeneralDataField
 {
     // this is system field & defined as key
     [SboField("Code"), SboPrimaryKey]
