@@ -11,10 +11,11 @@
 	<PackageTags>SAP;B1;DIAPI</PackageTags>
 	<Description>SAP BusinessOne (SAP B1) DIAPI helper</Description>
 	<GenerateDocumentationFile>False</GenerateDocumentationFile>
-	<Version>1.0.3</Version>
+	<Version>1.0.4</Version>
 	<PackageIcon>logo.png</PackageIcon>
-	<AssemblyVersion>1.0.3</AssemblyVersion>
-	<FileVersion>1.0.3</FileVersion>
+	<AssemblyVersion>1.0.4</AssemblyVersion>
+	<FileVersion>1.0.4</FileVersion>
+	<PackageReadmeFile>docs.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
@@ -58,6 +59,13 @@
   
   <ItemGroup>
     <PackageReference Include="FastMember" Version="1.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="docs.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
