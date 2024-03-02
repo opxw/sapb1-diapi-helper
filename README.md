@@ -43,7 +43,7 @@ This method is applied to `UserFields` data type.
 
 Example of case :
 
-![c](https://private-user-images.githubusercontent.com/146586887/309168891-8e0f1cfc-edaf-4c53-8c49-e0a225d85f34.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDkyNzU3MDgsIm5iZiI6MTcwOTI3NTQwOCwicGF0aCI6Ii8xNDY1ODY4ODcvMzA5MTY4ODkxLThlMGYxY2ZjLWVkYWYtNGM1My04YzQ5LWUwYTIyNWQ4NWYzNC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwMzAxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDMwMVQwNjQzMjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT02ZTQzZjQwMDMzODBlMDcyZjc5NThlYzMxNjBjNzUxYzMxZjk2M2M3Zjk3NGMxYWI3OTY2OWNmZTU2YjQyNTMyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.cJjYxn4mi0Ce_7MdlbZg5F3E4R3lrMysEoKu6crqVfs)
+![udf-marketing-document](https://github.com/opxw/sapb1-diapi-helper/assets/146586887/8e0f1cfc-edaf-4c53-8c49-e0a225d85f34)
 
 Marketing Document in SAP B1 is any document relating to the planning, pricing, coordination, promotion, purchase, sale, or distribution of goods or services. So the UDF will be placed on related transaction interfaces e.g. SalesOrder, GoodsReceipt, Inventory Transfer, Goods Issue or Receipt, etc. 
 
@@ -204,12 +204,12 @@ public void Delete();
 
 Let's try it on available *User Table* `Item Sale` & has been registered as UDO named `ITM_SALE` 
 
-<img title="" src="https://private-user-images.githubusercontent.com/146586887/309168915-851c8e4d-1ae0-4878-83e9-1f56405d637b.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDkyNzU3MDgsIm5iZiI6MTcwOTI3NTQwOCwicGF0aCI6Ii8xNDY1ODY4ODcvMzA5MTY4OTE1LTg1MWM4ZTRkLTFhZTAtNDg3OC04M2U5LTFmNTY0MDVkNjM3Yi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwMzAxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDMwMVQwNjQzMjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1lYTUxN2U5ZjBjNGE1NjgxYTFiZThjMDgyMzNkYTQzZDE2YWFlOWY2NDc4MzMzZWVjYjJjMWVmYmQyYWRmZTU2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.CVXgh2Pj2QWqZZ9Xv09ppmpXKIGw6yk7Idc2KwZCr4k" alt="A" data-align="inline">
+![user-table](https://github.com/opxw/sapb1-diapi-helper/assets/146586887/851c8e4d-1ae0-4878-83e9-1f56405d637b)
 
 The first step, define those fields into POCO class:
 
 ```C#
-ublic class ItemSale : GeneralDataField
+public class ItemSale : GeneralDataField
 {
     // this is system field & defined as key
     [SboField("Code"), SboPrimaryKey]
