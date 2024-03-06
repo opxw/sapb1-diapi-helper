@@ -55,7 +55,7 @@ public class MarketingDocumentUdf : IUdf
     [SboField("U_AnotherDate")]
     public DateTime? AnotherDate { get; set; }
 
-    [SboField("U_AnotherNumeric")]
+    [SboField("U_AnotherNumber")]
     public int? AnotherNumber { get; set; }
 
     [SboField("U_AnotherText")]
@@ -100,13 +100,13 @@ Now, let's compare with native (origin) from DIAPI SDK:
 var goodsIssue = (Documents)
 company.GetBusinessObject(BoObjectTypes.oInventoryGenEntry);
 goodsIssue.UserFields.Fields.Item("U_AnotherDate").Value = DateTime.Today.AddDays(1);
-goodsIssue.UserFields.Fields.Item("U_AnotherNumeric").Value = 1000;
+goodsIssue.UserFields.Fields.Item("U_AnotherNumber").Value = 1000;
 goodsIssue.UserFields.Fields.Item("U_AnotherText").Value = "test";
 
 var goodsReceipt = (Documents)
 company.GetBusinessObject(BoObjectTypes.oInventoryGenEntry);
 goodsReceipt.UserFields.Fields.Item("U_AnotherDate").Value = DateTime.Today.AddDays(1);
-goodsReceipt.UserFields.Fields.Item("U_AnotherNumeric").Value = 1000;
+goodsReceipt.UserFields.Fields.Item("U_AnotherNumber").Value = 1000;
 goodsReceipt.UserFields.Fields.Item("U_AnotherText").Value = "test";
 goodsReceipt.Lines.UserFields.Fields.Item("U_TestRow1").Value = "row value";
 
