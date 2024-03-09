@@ -1,4 +1,5 @@
 # SAP BusinessOne Data Interface API
+[![NuGet version (SAPB1.DIAPI.Helper)](https://img.shields.io/nuget/v/SAPB1.DIAPI.Helper.svg?style=flat-square)](https://www.nuget.org/packages/SAPB1.DIAPI.Helper/)
 
 A Wrapper of DIAPI with more extras such as UDF field mapping, easy access to UDO, SQL query, and more.
 
