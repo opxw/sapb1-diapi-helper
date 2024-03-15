@@ -19,6 +19,7 @@ namespace SAPB1.DIAPI.Helper
         GeneralService GetGeneralService(string name);
         Version GetCOMVersion();
         List<T> SqlQuery<T>(string sql, bool manualColumnMapping = false);
+        dynamic SqlScalarQuery(string sql);
         UdoProvider GetUDO(string name);
         string GetNewObjectCode();
         int GetNewObjectKey();

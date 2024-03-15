@@ -142,6 +142,15 @@ namespace SAPB1.DIAPI.Helper
             return recordset.ToList<T>();
         }
 
+        public dynamic SqlScalarQuery(string sql)
+        {
+            var recordset = GetBusinessObject<Recordset>(BoObjectTypes.BoRecordset);
+
+            recordset.DoQuery(sql);
+            
+            return recordset.Fields.Item(0).Value;
+        }
+
         public void StartTransaction()
         {
             CheckForValidCompany();
@@ -180,6 +189,5 @@ namespace SAPB1.DIAPI.Helper
 
             base.Dispose(disposing);
         }
-
     }
 }
