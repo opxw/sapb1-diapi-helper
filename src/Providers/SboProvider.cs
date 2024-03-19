@@ -38,7 +38,7 @@ namespace SAPB1.DIAPI.Helper
         {
             CheckForValidCompany();
 
-            if (!IsInTransaction)
+            if (IsInTransaction)
                 Company.EndTransaction(BoWfTransOpt.wf_Commit);
         }
 
