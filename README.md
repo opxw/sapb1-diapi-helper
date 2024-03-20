@@ -248,6 +248,10 @@ public class ItemSaleDiscount : GeneralDataRowField
 ```
 
 #### Insert
+```C#
+object Insert();
+```
+It will returning the new inserted ```DocEntry``` if UDO type is Document, otherwise the new inserted  ```Code``` if UDO type is Master Data. 
 
 ```C#
  // header
