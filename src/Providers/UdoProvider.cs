@@ -140,5 +140,15 @@ namespace SAPB1.DIAPI.Helper
         {
             _service.Delete(Values.ConvertToParam(_service));
         }
+
+        public void Reset()
+        {
+            Values = null;
+            _data = null;
+            _data = _service.GetDataInterface(GeneralServiceDataInterfaces.gsGeneralData);
+
+            foreach (var table in ChildTables)
+                table.SetGeneralData(_data);
+        }
     }
 }

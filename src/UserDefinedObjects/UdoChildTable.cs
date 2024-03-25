@@ -19,6 +19,7 @@ namespace SAPB1.DIAPI.Helper
         public void SetGeneralData(GeneralData data)
         {
             _data = data;
+            _dataCollections = null;
             _dataCollections = _data.Child(_tableName);
         }
 
