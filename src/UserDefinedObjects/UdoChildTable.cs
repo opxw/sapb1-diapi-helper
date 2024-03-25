@@ -39,16 +39,21 @@ namespace SAPB1.DIAPI.Helper
             _dataCollections.Add().SetValue(value);
         }
 
-        public void RemoveAtLine(int lineId)
+        public void RemoveAtLine(int lineNumber)
         {
-            _dataCollections.Remove(lineId);
+            RemoveAt(lineNumber - 1);
+        }
+
+        public void RemoveAt(int index)
+        {
+            _dataCollections.Remove(index);
         }
 
         public void RemoveAll()
         {
             for (var i = 0; i < _dataCollections.Count; i++)
             {
-                _dataCollections.Remove(i);
+                RemoveAt(i);
             }
         }
 
