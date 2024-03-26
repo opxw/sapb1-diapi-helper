@@ -11,7 +11,7 @@
 	<PackageTags>SAP;B1;DIAPI</PackageTags>
 	<Description>SAP BusinessOne (SAP B1) DIAPI helper</Description>
 	<GenerateDocumentationFile>False</GenerateDocumentationFile>
-	<Version>1.0.6</Version>
+	<Version>1.0.7</Version>
 	<PackageIcon>logo.png</PackageIcon>
 	<AssemblyVersion>1.0.4</AssemblyVersion>
 	<FileVersion>1.0.4</FileVersion>
