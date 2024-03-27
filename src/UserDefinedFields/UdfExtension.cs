@@ -7,6 +7,11 @@ namespace SAPB1.DIAPI.Helper
     {
         public static void Assign(this UserFields userFields, IUdf source)
         {
+            userFields.Fields.Assign(source);
+        }
+
+        public static void Assign(this Fields fields, IUdf source)
+        {
             var accessor = TypeAccessor.Create(source.GetType());
 
             foreach (var member in accessor.GetMembers())
@@ -16,7 +21,7 @@ namespace SAPB1.DIAPI.Helper
                 {
                     var value = accessor[source, member.Name];
                     if (value != null)
-                        userFields.Fields.Item(field).Value = value;
+                        fields.Item(field).Value = value;
                 }
             }
         }
