@@ -77,6 +77,20 @@ namespace SAPB1.DIAPI.Helper
             return result;
         }
 
+        public T GetBusinessService<T>(ServiceTypes serviceTypes)
+        {
+            CheckForValidCompany();
+
+            var result = default(T);
+            var service = Company.GetCompanyService()
+                .GetBusinessService(serviceTypes);
+
+            if (service != null)
+                result = (T)service;
+
+            return result;
+        }
+
         public Version GetCOMVersion()
         {
             Assembly assembly = null;
