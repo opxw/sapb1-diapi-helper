@@ -123,6 +123,7 @@ namespace SAPB1.DIAPI.Helper
 
         public void Update()
         {
+            _data.SetValue(Values);
             _service.Update(_data);
         }
 
