@@ -51,7 +51,7 @@ namespace SAPB1.DIAPI.Helper
             Company.UserName = _configuration.User;
             Company.Password = _configuration.Password;
             Company.CompanyDB = _configuration.CompanyDatabase;
-            Company.UseTrusted = true;
+            Company.UseTrusted = _configuration.Trusted;
             Company.Connect();
 
             return Company.Connected;

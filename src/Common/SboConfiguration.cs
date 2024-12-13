@@ -9,5 +9,6 @@
         public string User { get; set; }
         public string Password { get; set; }
         public string CompanyDatabase { get; set; }
+        public bool Trusted { get; set; }
     }
 }
