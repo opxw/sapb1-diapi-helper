@@ -52,7 +52,8 @@ namespace SAPB1.DIAPI.Helper
 
         public void RemoveAll()
         {
-            for (var i = 0; i < _dataCollections.Count; i++)
+            var count = _dataCollections.Count;
+            for (var i = count; i --> 0;)
             {
                 RemoveAt(i);
             }
