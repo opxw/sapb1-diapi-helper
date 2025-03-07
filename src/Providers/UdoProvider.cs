@@ -1,4 +1,5 @@
 ﻿using SAPbobsCOM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -97,8 +98,16 @@ namespace SAPB1.DIAPI.Helper
             var result = default(T);
 
             if (_data != null)
-                result = _data.MapValue<T>();
-
+            {
+                try
+                {
+                    result = _data.MapValue<T>();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
             return result;
         }
 
