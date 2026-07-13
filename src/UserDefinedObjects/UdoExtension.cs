@@ -1,4 +1,3 @@
-﻿using FastMember;
 using SAPbobsCOM;
 using System;
 using System.Collections.Generic;
@@ -14,31 +13,16 @@ namespace SAPB1.DIAPI.Helper
             GeneralDataParams generalDataParams = (GeneralDataParams)service
                 .GetDataInterface(GeneralServiceDataInterfaces.gsGeneralDataParams);
 
-            TypeAccessor typeAccessor = TypeAccessor.Create(source.GetType());
+            var map = MemberMapCache.Get(source.GetType());
 
-            foreach (Member member in typeAccessor.GetMembers())
+            foreach (var member in map.SboMembers)
             {
-                SboFieldAttribute memberAttribute = member.GetMemberAttribute<SboFieldAttribute>();
-                if (memberAttribute == null)
+                object value = map.Accessor[source, member.MemberName];
+                if (value == null)
                     continue;
 
-                object obj = typeAccessor[source, member.Name];
-                if (obj == null)
-                    continue;
-
-                string name = memberAttribute.FieldName;
-                if (!ignorePrimary)
-                {
-                    SboPrimaryKeyAttribute memberAttribute2 = member.GetMemberAttribute<SboPrimaryKeyAttribute>();
-                    if (memberAttribute2 != null)
-                    {
-                        generalDataParams.SetProperty(name, obj);
-                    }
-                }
-                else
-                {
-                    generalDataParams.SetProperty(name, obj);
-                }
+                if (ignorePrimary || member.IsPrimaryKey)
+                    generalDataParams.SetProperty(member.FieldName, value);
             }
 
             return generalDataParams;
@@ -47,51 +31,31 @@ namespace SAPB1.DIAPI.Helper
         public static void SetValue(this GeneralData generalData, IGeneralDataField source,
                 bool ignorePrimaryKey = true)
         {
-            var accessor = TypeAccessor.Create(source.GetType(), true);
+            var map = MemberMapCache.Get(source.GetType());
 
-            foreach (var member in accessor.GetMembers())
+            foreach (var member in map.SboMembers)
             {
-                var fieldAttribute = member.GetMemberAttribute<SboFieldAttribute>();
-                if (fieldAttribute == null)
-                    continue;
-
-                object value = accessor[source, member.Name];
+                object value = map.Accessor[source, member.MemberName];
                 if (value == null)
                     continue;
 
-                string fieldName = fieldAttribute.FieldName;
-
-                var keyAttribute = member.GetMemberAttribute<SboPrimaryKeyAttribute>();
-                if (keyAttribute != null)
-                {
-                    if (!ignorePrimaryKey)
-                    {
-                        generalData.SetProperty(fieldName, value);
-                    }
-                }
-                else
-                {
-                    generalData.SetProperty(fieldName, value);
-                }
+                if (!member.IsPrimaryKey || !ignorePrimaryKey)
+                    generalData.SetProperty(member.FieldName, value);
             }
         }
 
         public static T MapValue<T>(this GeneralData source) where T : IGeneralDataField
         {
             var result = (T)Activator.CreateInstance(typeof(T));
-            var accessor = TypeAccessor.Create(result.GetType());
+            var map = MemberMapCache.Get(result.GetType());
 
-            foreach (var member in accessor.GetMembers())
+            foreach (var member in map.SboMembers)
             {
-                var fieldAttribute = member.GetMemberAttribute<SboFieldAttribute>();
-                if (fieldAttribute == null)
-                    continue;
-
-                object value = source.GetProperty(fieldAttribute.FieldName);
+                object value = source.GetProperty(member.FieldName);
                 if (value == null)
                     continue;
 
-                accessor[result, member.Name] = value;
+                map.Accessor[result, member.MemberName] = value;
             }
 
             return result;

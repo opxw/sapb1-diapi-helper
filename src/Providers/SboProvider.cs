@@ -50,6 +50,8 @@ namespace SAPB1.DIAPI.Helper
             Company.SLDServer = _configuration.SLDServer;
             Company.UserName = _configuration.User;
             Company.Password = _configuration.Password;
+            Company.DbUserName = _configuration.DatabaseUser;
+            Company.DbPassword = _configuration.DatabasePassword;
             Company.CompanyDB = _configuration.CompanyDatabase;
             Company.UseTrusted = _configuration.Trusted;
             Company.Connect();
@@ -97,9 +99,9 @@ namespace SAPB1.DIAPI.Helper
 
             try
             {
-                Assembly.LoadFrom("Interop.SAPbobsCOM.dll");
+                assembly = Assembly.LoadFrom("Interop.SAPbobsCOM.dll");
             }
-            catch (Exception ex)
+            catch
             {
             }
 
@@ -151,18 +153,32 @@ namespace SAPB1.DIAPI.Helper
         {
             var recordset = GetBusinessObject<Recordset>(BoObjectTypes.BoRecordset);
 
-            recordset.DoQuery(sql);
+            try
+            {
+                recordset.DoQuery(sql);
 
-            return recordset.ToList<T>();
+                return recordset.ToList<T>(manualColumnMapping);
+            }
+            finally
+            {
+                ReleaseComObject(recordset);
+            }
         }
 
         public dynamic SqlScalarQuery(string sql)
         {
             var recordset = GetBusinessObject<Recordset>(BoObjectTypes.BoRecordset);
 
-            recordset.DoQuery(sql);
-            
-            return recordset.Fields.Item(0).Value;
+            try
+            {
+                recordset.DoQuery(sql);
+
+                return recordset.Fields.Item(0).Value;
+            }
+            finally
+            {
+                ReleaseComObject(recordset);
+            }
         }
 
         public void StartTransaction()
@@ -198,10 +214,16 @@ namespace SAPB1.DIAPI.Helper
             if (disposing)
             {
                 if (Company != null)
-                    Marshal.FinalReleaseComObject(Company);
+                    ReleaseComObject(Company);
             }
 
             base.Dispose(disposing);
+        }
+
+        private static void ReleaseComObject(object value)
+        {
+            if (value != null && Marshal.IsComObject(value))
+                Marshal.FinalReleaseComObject(value);
         }
     }
 }

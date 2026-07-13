@@ -1,5 +1,6 @@
-﻿using SAPbobsCOM;
+using SAPbobsCOM;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +14,9 @@ namespace SAPB1.DIAPI.Helper
         private GeneralData _data;
         private UdoProperties _properties;
         private List<UdoChildTable> _childTables;
-        
+        private static readonly ConcurrentDictionary<string, UdoProperties> PropertiesCache = new ConcurrentDictionary<string, UdoProperties>(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, List<string>> ChildTableCache = new ConcurrentDictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+
         public GeneralDataField Values { get; set; }
 
         public UdoProperties Properties => _properties;
@@ -38,7 +41,7 @@ namespace SAPB1.DIAPI.Helper
             }
         }
 
-        public void GetByParams<T>(GeneralDataField parameters, 
+        public void GetByParams<T>(GeneralDataField parameters,
             SboRecordsetFillParam recordFill = SboRecordsetFillParam.FillIntoValues) where T : GeneralDataField
         {
             _data = _service.GetByParams(parameters.ConvertToParam(_service));
@@ -48,7 +51,7 @@ namespace SAPB1.DIAPI.Helper
                 Values = GetValues<T>();
             }
 
-            foreach (var child in  _childTables)
+            foreach (var child in _childTables)
             {
                 child.SetGeneralData(_data);
             }
@@ -56,6 +59,11 @@ namespace SAPB1.DIAPI.Helper
 
         private UdoProperties GetProperties()
         {
+            var cacheKey = GetCacheKey();
+            UdoProperties cached;
+            if (PropertiesCache.TryGetValue(cacheKey, out cached))
+                return cached;
+
             var result = default(UdoProperties);
 
             var queryRecord = _provider.SqlQuery<UdoProperties>(
@@ -65,7 +73,10 @@ namespace SAPB1.DIAPI.Helper
                 );
 
             if (queryRecord.Count > 0)
+            {
                 result = queryRecord.FirstOrDefault();
+                PropertiesCache.TryAdd(cacheKey, result);
+            }
 
             return result;
         }
@@ -77,20 +88,30 @@ namespace SAPB1.DIAPI.Helper
             if (string.IsNullOrWhiteSpace(_objectName))
                 return result;
 
-            var queryRecord = _provider.SqlQuery<UdoChildRecord>(
-                @" SELECT   Code, TableName, SonNum AS Num " +
-                 " FROM     UDO1 " +
-                 " WHERE    Code = '" + _objectName + "'" +
-                 " ORDER BY SonNum "
-                );
-
-            if (queryRecord.Count > 0)
+            var tableNames = ChildTableCache.GetOrAdd(GetCacheKey(), key =>
             {
-                foreach (var record in queryRecord)
-                    result.Add(new UdoChildTable(record.TableName));
-            }
+                var queryRecord = _provider.SqlQuery<UdoChildRecord>(
+                    @" SELECT   Code, TableName, SonNum AS Num " +
+                     " FROM     UDO1 " +
+                     " WHERE    Code = '" + _objectName + "'" +
+                     " ORDER BY SonNum "
+                    );
+
+                return queryRecord.Select(x => x.TableName).ToList();
+            });
+
+            foreach (var tableName in tableNames)
+                result.Add(new UdoChildTable(tableName));
 
             return result;
+        }
+
+        private string GetCacheKey()
+        {
+            var company = _provider.Company;
+            var companyDatabase = company == null ? string.Empty : company.CompanyDB;
+
+            return companyDatabase + "|" + _objectName;
         }
 
         private T GetValues<T>() where T : GeneralDataField

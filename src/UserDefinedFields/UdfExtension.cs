@@ -1,4 +1,3 @@
-﻿using FastMember;
 using SAPbobsCOM;
 
 namespace SAPB1.DIAPI.Helper
@@ -12,17 +11,13 @@ namespace SAPB1.DIAPI.Helper
 
         public static void Assign(this Fields fields, IUdf source)
         {
-            var accessor = TypeAccessor.Create(source.GetType());
+            var map = MemberMapCache.Get(source.GetType());
 
-            foreach (var member in accessor.GetMembers())
+            foreach (var member in map.SboMembers)
             {
-                var field = member.GetFieldName();
-                if (!string.IsNullOrWhiteSpace(field))
-                {
-                    var value = accessor[source, member.Name];
-                    if (value != null)
-                        fields.Item(field).Value = value;
-                }
+                var value = map.Accessor[source, member.MemberName];
+                if (value != null)
+                    fields.Item(member.FieldName).Value = value;
             }
         }
     }

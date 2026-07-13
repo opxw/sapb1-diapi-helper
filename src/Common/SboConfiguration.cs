@@ -8,6 +8,8 @@
         public string SLDServer { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
+        public string DatabaseUser { get; set; }
+        public string DatabasePassword { get; set; }
         public string CompanyDatabase { get; set; }
         public bool Trusted { get; set; }
     }

@@ -25,7 +25,7 @@ namespace SAPB1.DIAPI.Helper
 
         public void AddList<T>(List<T> values) where T : GeneralDataRowField
         {
-            if (values == null && values.Count == 0)
+            if (values == null || values.Count == 0)
                 return;
 
             foreach (T value in values)
@@ -61,7 +61,7 @@ namespace SAPB1.DIAPI.Helper
 
         public void UpdateList<T>(List<T> values) where T : GeneralDataRowField
         {
-            if (values == null && values.Count == 0)
+            if (values == null || values.Count == 0)
                 return;
 
             foreach (T value in values)
