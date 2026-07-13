@@ -10,10 +10,10 @@
     <PackageTags>SAP;B1;DIAPI</PackageTags>
     <Description>SAP BusinessOne (SAP B1) DIAPI helper</Description>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <Version>1.1.3</Version>
+    <Version>1.1.5</Version>
     <PackageIcon>logo.png</PackageIcon>
-    <AssemblyVersion>1.1.3</AssemblyVersion>
-    <FileVersion>1.1.3</FileVersion>
+    <AssemblyVersion>1.1.5</AssemblyVersion>
+    <FileVersion>1.1.5</FileVersion>
     <PackageReadmeFile>docs.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup>

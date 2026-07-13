@@ -1,5 +1,36 @@
 # SAP Business One Client Diagnostics
 
+## Package Builder
+
+Use `Build-Package.ps1` to build and generate the NuGet package with Visual Studio MSBuild:
+
+```powershell
+.\tools\Build-Package.ps1
+```
+
+By default, the script increments the patch version before packaging. For example, `1.1.2` becomes `1.1.3`. It updates:
+
+- `Version`
+- `AssemblyVersion`
+- `FileVersion`
+
+The default output folder is:
+
+```text
+artifacts\packages
+```
+
+Optional examples:
+
+```powershell
+.\tools\Build-Package.ps1 -Configuration Release
+.\tools\Build-Package.ps1 -PackageOutputPath C:\Temp\packages
+.\tools\Build-Package.ps1 -SkipBuild
+.\tools\Build-Package.ps1 -NoVersionIncrement
+```
+
+## Latency Diagnostics
+
 `Test-SapB1ClientLatency.ps1` checks the common causes of slow SAP Business One DI API login from a client machine:
 
 - network latency
