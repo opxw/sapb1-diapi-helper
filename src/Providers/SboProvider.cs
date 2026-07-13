@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace SAPB1.DIAPI.Helper
 {
@@ -54,7 +55,7 @@ namespace SAPB1.DIAPI.Helper
             Company.DbPassword = _configuration.DatabasePassword;
             Company.CompanyDB = _configuration.CompanyDatabase;
             Company.UseTrusted = _configuration.Trusted;
-            Company.Connect();
+            ConnectCompany();
 
             return Company.Connected;
         }
@@ -224,6 +225,48 @@ namespace SAPB1.DIAPI.Helper
         {
             if (value != null && Marshal.IsComObject(value))
                 Marshal.FinalReleaseComObject(value);
+        }
+
+        private void ConnectCompany()
+        {
+            if (!_configuration.UseLoginGate)
+            {
+                Company.Connect();
+                return;
+            }
+
+            var gateName = string.IsNullOrWhiteSpace(_configuration.LoginGateName)
+                ? @"Global\SAPB1_DIAPI_LOGIN_GATE"
+                : _configuration.LoginGateName;
+            var timeout = _configuration.LoginGateTimeout <= TimeSpan.Zero
+                ? TimeSpan.FromSeconds(120)
+                : _configuration.LoginGateTimeout;
+
+            using (var loginGate = new Mutex(false, gateName))
+            {
+                var hasLock = false;
+                try
+                {
+                    try
+                    {
+                        hasLock = loginGate.WaitOne(timeout);
+                    }
+                    catch (AbandonedMutexException)
+                    {
+                        hasLock = true;
+                    }
+
+                    if (!hasLock)
+                        throw new SboLoginGateTimeoutException(gateName, timeout);
+
+                    Company.Connect();
+                }
+                finally
+                {
+                    if (hasLock)
+                        loginGate.ReleaseMutex();
+                }
+            }
         }
     }
 }
